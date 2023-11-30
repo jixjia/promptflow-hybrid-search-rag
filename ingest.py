@@ -19,11 +19,11 @@ if __name__ == '__main__':
     # (1) create index if not exists
     try:
         if config.INDEX_NAME in searchSDK.list_indexes():
-            print(f'Index {config.INDEX_NAME} already exists, skip creating...')
+            print(f'[INFO] Index "{config.INDEX_NAME}" already exists, skip creating...')
         
         else:
             index_schema_path='schemas/kb-hybrid-index.json'
-            print(f'Creating index {config.INDEX_NAME}...')
+            print(f'[INFO] Creating index "{config.INDEX_NAME}"...')
             result = searchSDK.create_or_update_index(index_schema_path, True) 
 
     except Exception as e:
@@ -32,9 +32,9 @@ if __name__ == '__main__':
 
 
     # (2) prepare pdf source document
-    print('Validating your source file...')
+    print('[INFO] Validating your source file...')
     if not args.file_path or not os.path.exists(args.file_path):
-        raise Exception('No file provided or file is invalid')
+        raise Exception('[INFO] No file provided or file is invalid')
     else:
         try:
             file_path = args.file_path    
@@ -55,21 +55,21 @@ if __name__ == '__main__':
             logging.error(e.args)
             sys.exit(0)
 
-    print(f'Beging parsing your PDF document...')
+    print(f'[INFO] Begining to parse and chunk your PDF document...')
     
     batch = []
-    batch += ingest_pdf.parse_and_chunk(file_ext, file_name, file_path, vectorize=True)
+    batch += process_pdf.parse_and_chunk(file_ext, file_name, file_path, vectorize=True)
                 
 
     # (3) batch ingestion
-    print(f'Begining batch indexation... Total {len(batch)} document(s)')
+    print(f'[INFO] Begining batch indexation... Total {len(batch)} document(s)')
 
     status, result = searchSDK.upsert_document(batch)
 
     if not status:
         raise Exception(result)
     else:
-        print('Done')  
+        print('[INFO] Done !')  
     
 
     # (4) Search and return in dictionary

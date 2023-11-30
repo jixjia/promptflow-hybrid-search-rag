@@ -44,7 +44,7 @@ def parse_and_chunk(content_type, title, content_path, vectorize=True):
 
         if vectorize:
             title_vector = generate_embeddings(title) 
-            print(f'[INFO] Generated vector for title field "{title}"')
+            print(f'[INFO] Generated vector for title "{title}"')
 
     except Exception as e:
         logging.error(e.args)
@@ -52,7 +52,7 @@ def parse_and_chunk(content_type, title, content_path, vectorize=True):
     
     for idx in range(len(pages)):
         try:
-            print(f'Processing "{content_path}" - chunk {idx}')
+            print(f'[INFO] Processing "{title}" - chunk {idx}')
             content = reader.pages[idx].extract_text()
 
             if not content or len(content) < 1:

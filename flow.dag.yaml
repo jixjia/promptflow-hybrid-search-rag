@@ -1,9 +1,11 @@
 id: template_standard_flow
 name: Template Standard Flow
+environment:
+  python_requirements_txt: requirements.txt
 inputs:
   question:
     type: string
-    default: 我怎么给model3充电啊？
+    default: How do I charge my Model 3? Where's charging port ?
     is_chat_input: false
 outputs:
   answer:
@@ -23,16 +25,12 @@ nodes:
     top_p: 1
     logprobs: 0
     echo: false
-    stop: ""
     presence_penalty: 0
     frequency_penalty: 0
     best_of: 1
-    logit_bias: ""
     question: ${inputs.question}
-  provider: AzureOpenAI
   connection: oai7-sweden
   api: completion
-  module: promptflow.tools.aoai
   use_variants: false
 - name: extract_keywords
   type: llm
@@ -47,16 +45,12 @@ nodes:
     top_p: 1
     logprobs: 0
     echo: false
-    stop: ""
     presence_penalty: 0
     frequency_penalty: 0
     best_of: 1
-    logit_bias: ""
     question: ${rephase_question.output}
-  provider: AzureOpenAI
   connection: oai7-sweden
   api: completion
-  module: promptflow.tools.aoai
   use_variants: false
 - name: embbed_question
   type: python
@@ -105,18 +99,11 @@ nodes:
     deployment_name: gpt-35-turbo
     temperature: 0.5
     top_p: 1
-    stop: ""
     max_tokens: 2048
     presence_penalty: 0
     frequency_penalty: 0
-    logit_bias: ""
     context: ${consolidate_context.output}
     question: ${rephase_question.output}
-  provider: AzureOpenAI
   connection: oai7-sweden
   api: chat
-  module: promptflow.tools.aoai
   use_variants: false
-node_variants: {}
-environment:
-  python_requirements_txt: requirements.txt
