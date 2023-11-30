@@ -11,12 +11,12 @@ This repo demonstrates building a generic RAG pattern with PromptFlow and Azure 
 
 ### Why Hybrid Search ?
 
-* Azue AI Search makes it possible to combine the best of **Keyword search (BM25)**, **Semantic Search** and **Vectorized Search** for best RAG performance (see [benchamrking](https://techcommunity.microsoft.com/t5/ai-azure-ai-services-blog/azure-cognitive-search-outperforming-vector-search-with-hybrid/ba-p/3929167))
+* Azue AI Search makes it possible to combine the best of **Keyword search (BM25)**, **Semantic Search** and **Vectorized Search** for an improved RAG performance (see [benchamrking](https://techcommunity.microsoft.com/t5/ai-azure-ai-services-blog/azure-cognitive-search-outperforming-vector-search-with-hybrid/ba-p/3929167))
 
 
-##  Instructions
+##  Instruction
 
-1. Open `.env.template` file and configure following Azure service's credential information
+1. Open `.env.template` file and configure following Azure service's connection details.
 
     |Key|Value|
     |---|---|
