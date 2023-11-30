@@ -1,0 +1,10 @@
+Extract important keywords from the following user question such as names, places, quantities, dates and times. Also extract verbs and adjectives that you think is important to understand user's question intent. Separate keywords by comma.
+
+# example
+user question: How do I charge my Tesla Model 3 ? I want to know how to open and close the charging port.
+keywords: Tesla, Model 3, open, close, charging port
+
+# user question
+{{ question}}
+
+# extracted keywords

@@ -1,0 +1,235 @@
+{
+  "package": {
+    "promptflow.tools.embedding.embedding": {
+      "name": "Embedding",
+      "type": "python",
+      "inputs": {
+        "connection": {
+          "type": [
+            "AzureOpenAIConnection",
+            "OpenAIConnection"
+          ],
+          "allow_manual_entry": false,
+          "is_multi_select": false,
+          "input_type": "default"
+        },
+        "deployment_name": {
+          "type": [
+            "string"
+          ],
+          "enabled_by": "connection",
+          "enabled_by_type": [
+            "AzureOpenAIConnection"
+          ],
+          "model_list": [
+            "text-embedding-ada-002",
+            "text-search-ada-doc-001",
+            "text-search-ada-query-001"
+          ],
+          "capabilities": {
+            "completion": false,
+            "chat_completion": false,
+            "embeddings": true
+          },
+          "allow_manual_entry": false,
+          "is_multi_select": false,
+          "input_type": "default"
+        },
+        "input": {
+          "type": [
+            "string"
+          ],
+          "allow_manual_entry": false,
+          "is_multi_select": false,
+          "input_type": "default"
+        },
+        "model": {
+          "type": [
+            "string"
+          ],
+          "enum": [
+            "text-embedding-ada-002",
+            "text-search-ada-doc-001",
+            "text-search-ada-query-001"
+          ],
+          "enabled_by": "connection",
+          "enabled_by_type": [
+            "OpenAIConnection"
+          ],
+          "allow_manual_entry": false,
+          "is_multi_select": false,
+          "input_type": "default"
+        }
+      },
+      "description": "Use Open AI's embedding model to create an embedding vector representing the input text.",
+      "module": "promptflow.tools.embedding",
+      "function": "embedding",
+      "is_builtin": true,
+      "package": "promptflow-tools",
+      "package_version": "0.1.0b10",
+      "enable_kwargs": false,
+      "toolId": "promptflow.tools.embedding.embedding",
+      "tooltip": "Use Open AI's embedding model to create an embedding vector representing the input text."
+    }
+  },
+  "code": {
+    "rephase_question.jinja2": {
+      "name": "rephase_question.jinja2",
+      "type": "prompt",
+      "inputs": {
+        "question": {
+          "type": [
+            "string"
+          ],
+          "allow_manual_entry": false,
+          "is_multi_select": false,
+          "input_type": "default"
+        }
+      },
+      "source": "rephase_question.jinja2",
+      "is_builtin": false,
+      "enable_kwargs": false,
+      "toolId": "rephase_question.jinja2"
+    },
+    "extract_keywords.jinja2": {
+      "name": "extract_keywords.jinja2",
+      "type": "prompt",
+      "inputs": {
+        "question": {
+          "type": [
+            "string"
+          ],
+          "allow_manual_entry": false,
+          "is_multi_select": false,
+          "input_type": "default"
+        }
+      },
+      "source": "extract_keywords.jinja2",
+      "is_builtin": false,
+      "enable_kwargs": false,
+      "toolId": "extract_keywords.jinja2"
+    },
+    "keyword_search.py": {
+      "name": "keyword_search.py",
+      "type": "python",
+      "inputs": {
+        "keywords": {
+          "type": [
+            "string"
+          ],
+          "allow_manual_entry": false,
+          "is_multi_select": false,
+          "input_type": "default",
+          "value": "${extract_keywords.output}"
+        },
+        "top_k": {
+          "type": [
+            "int"
+          ],
+          "allow_manual_entry": false,
+          "is_multi_select": false,
+          "input_type": "default",
+          "value": "3"
+        }
+      },
+      "source": "keyword_search.py",
+      "function": "my_python_tool",
+      "is_builtin": false,
+      "enable_kwargs": false,
+      "toolId": "keyword_search.py"
+    },
+    "manual_vector_lookup.py": {
+      "name": "manual_vector_lookup.py",
+      "type": "python",
+      "inputs": {
+        "embedding": {
+          "type": [
+            "list"
+          ],
+          "allow_manual_entry": false,
+          "is_multi_select": false,
+          "input_type": "default",
+          "value": "${embbed_question.output}"
+        },
+        "question": {
+          "type": [
+            "string"
+          ],
+          "allow_manual_entry": false,
+          "is_multi_select": false,
+          "input_type": "default",
+          "value": "${rephase_question.output}"
+        },
+        "top_k": {
+          "type": [
+            "int"
+          ],
+          "allow_manual_entry": false,
+          "is_multi_select": false,
+          "input_type": "default",
+          "value": "5"
+        }
+      },
+      "source": "manual_vector_lookup.py",
+      "function": "vector_search",
+      "is_builtin": false,
+      "enable_kwargs": false,
+      "toolId": "manual_vector_lookup.py"
+    },
+    "consolidate.py": {
+      "name": "consolidate.py",
+      "type": "python",
+      "inputs": {
+        "keyword_search_outputs": {
+          "type": [
+            "list"
+          ],
+          "allow_manual_entry": false,
+          "is_multi_select": false,
+          "input_type": "default",
+          "value": "${keyword_search_bm25.output}"
+        },
+        "semantic_search_outputs": {
+          "type": [
+            "list"
+          ],
+          "allow_manual_entry": false,
+          "is_multi_select": false,
+          "input_type": "default",
+          "value": "${semantic_hybrid_search.output}"
+        }
+      },
+      "source": "consolidate.py",
+      "function": "consolidate",
+      "is_builtin": false,
+      "enable_kwargs": false,
+      "toolId": "consolidate.py"
+    },
+    "augment.jinja2": {
+      "name": "augment.jinja2",
+      "type": "prompt",
+      "inputs": {
+        "context": {
+          "type": [
+            "string"
+          ],
+          "allow_manual_entry": false,
+          "is_multi_select": false,
+          "input_type": "default"
+        },
+        "question": {
+          "type": [
+            "string"
+          ],
+          "allow_manual_entry": false,
+          "is_multi_select": false,
+          "input_type": "default"
+        }
+      },
+      "source": "augment.jinja2",
+      "is_builtin": false,
+      "enable_kwargs": false,
+      "toolId": "augment.jinja2"
+    }
+  }
+}

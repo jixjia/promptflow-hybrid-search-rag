@@ -1,0 +1,129 @@
+inputs:
+  question:
+    type: string
+    default: How do I charge my Tesla Model 3? Where is the charging port ?
+    is_chat_input: false
+outputs:
+  joke:
+    type: string
+    reference: ${echo.output}
+    evaluation_only: false
+    is_chat_output: false
+nodes:
+- name: echo
+  type: python
+  source:
+    type: code
+    path: echo.py
+  inputs:
+    input: ${joke.output}
+  aggregation: false
+- name: rephase_question
+  type: llm
+  source:
+    type: code
+    path: rephase_question.jinja2
+  inputs:
+    deployment_name: gpt-35-turbo-instruct
+    suffix: ""
+    max_tokens: 200
+    temperature: 0
+    top_p: 1
+    logprobs: 0
+    echo: false
+    stop: ""
+    presence_penalty: 0
+    frequency_penalty: 0
+    best_of: 1
+    logit_bias: ""
+    question: ${inputs.question}
+  api: completion
+  provider: AzureOpenAI
+  connection: oai7-sweden
+  module: promptflow.tools.aoai
+  aggregation: false
+- name: extract_keywords
+  type: llm
+  source:
+    type: code
+    path: extract_keywords.jinja2
+  inputs:
+    deployment_name: gpt-35-turbo-instruct
+    suffix: ""
+    max_tokens: 200
+    temperature: 0
+    top_p: 1
+    logprobs: 0
+    echo: false
+    stop: ""
+    presence_penalty: 0
+    frequency_penalty: 0
+    best_of: 1
+    logit_bias: ""
+    question: ${rephase_question.output}
+  api: completion
+  provider: AzureOpenAI
+  connection: oai7-sweden
+  module: promptflow.tools.aoai
+  aggregation: false
+- name: embbed_question
+  type: python
+  source:
+    type: package
+    tool: promptflow.tools.embedding.embedding
+  inputs:
+    connection: oai7-sweden
+    deployment_name: text-embedding-ada-002
+    input: ${rephase_question.output}
+  aggregation: false
+- name: keyword_search_bm25
+  type: python
+  source:
+    type: code
+    path: keyword_search.py
+  inputs:
+    keywords: ${extract_keywords.output}
+    top_k: 5
+  aggregation: false
+- name: semantic_hybrid_search
+  type: python
+  source:
+    type: code
+    path: manual_vector_lookup.py
+  inputs:
+    embedding: ${embbed_question.output}
+    question: ${rephase_question.output}
+    top_k: 5
+  aggregation: false
+- name: consolidate
+  type: python
+  source:
+    type: code
+    path: consolidate.py
+  inputs:
+    keyword_search_outputs: ${keyword_search_bm25.output}
+    semantic_search_outputs: ${semantic_hybrid_search.output}
+  aggregation: false
+- name: augment
+  type: llm
+  source:
+    type: code
+    path: augment.jinja2
+  inputs:
+    deployment_name: gpt-35-turbo
+    temperature: 0.5
+    top_p: 1
+    stop: ""
+    max_tokens: 2048
+    presence_penalty: 0
+    frequency_penalty: 0
+    logit_bias: ""
+    context: ${consolidate.output}
+    question: ${rephase_question.output}
+  api: chat
+  provider: AzureOpenAI
+  connection: oai7-sweden
+  module: promptflow.tools.aoai
+  aggregation: false
+environment:
+  python_requirements_txt: requirements.txt
