@@ -1,4 +1,4 @@
-## PromptFlow RAG with Azrue AI Hybrid Search
+# Best-in-class RAG with PromptFlow and Azrue AI Hybrid Search
 
 This repo demonstrates building a generic RAG pattern with PromptFlow and Azure AI Hybrid Search
 
@@ -8,9 +8,11 @@ This repo demonstrates building a generic RAG pattern with PromptFlow and Azure 
 * To systemtically evaluate and quantify LLM quality
 * To simplify operationalizing LLM app as a docker on  managed endpoints
 
+
 ### Why Hybrid Search ?
 
-* Azue AI Search makes it possible to combine the best of ** Keyword search (BM25)**, **Semantic Search** and **Vectorized Search** for best RAG performance (see [benchamrking](https://techcommunity.microsoft.com/t5/ai-azure-ai-services-blog/azure-cognitive-search-outperforming-vector-search-with-hybrid/ba-p/3929167))
+* Azue AI Search makes it possible to combine the best of **Keyword search (BM25)**, **Semantic Search** and **Vectorized Search** for best RAG performance (see [benchamrking](https://techcommunity.microsoft.com/t5/ai-azure-ai-services-blog/azure-cognitive-search-outperforming-vector-search-with-hybrid/ba-p/3929167))
+
 
 ##  Instructions
 
@@ -27,8 +29,9 @@ This repo demonstrates building a generic RAG pattern with PromptFlow and Azure 
 2. Rename `.env.template` to `.env`
 
 3. Run `ingest.py` to add your PDF source to Azure Search index. This tool will perform parsing, chunking and batch indexation of the PDF document for you.    
+    
     e.g.   
-    `python ingest.py -f PATH_TO_PDF`
+    `python ingest.py -f PATH_TO_PDF_FILE`
 
     ![](images/ingest.png)
 
@@ -38,3 +41,5 @@ I recommend you to install the [PromptFlow VS Code Extension](https://marketplac
     ![](images/flow_diagram_yaml.png)
 
 5. Deploy the LLM App to Azure ML Management Endpoint
+
+    ![](images/inference.png)
