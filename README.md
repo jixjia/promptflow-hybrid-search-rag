@@ -1,4 +1,4 @@
-# Best-in-class RAG with PromptFlow and Azrue AI Hybrid Search
+# Best-in-class RAG with PromptFlow and Azure AI Hybrid Search
 
 This repo demonstrates building a generic RAG pattern with PromptFlow and Azure AI Hybrid Search
 
