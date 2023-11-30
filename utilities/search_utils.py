@@ -58,6 +58,10 @@ class SearchSDK:
     '''Index & Indexer
     '''
 
+    def list_indexes(self):
+        result = self.index_client.list_indexes()
+        return [x.name for x in result]
+
     # Create of Update Index
     def create_or_update_index(self, index_schema_path, force=True):
         # load index definition and parse into Fields object

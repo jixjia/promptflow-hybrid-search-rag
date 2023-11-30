@@ -6,7 +6,7 @@ load_dotenv()
 
 # app settings
 APP_SECRET = str(uuid.uuid4())
-MAX_CONTENT_SIZE = 1024
+MAX_CONTENT_SIZE = 10 # MB
 
 # Azure Cognitive Search settings
 AZURE_SEARCH_SERVICE_NAME = os.getenv('AZURE_SEARCH_SERVICE_NAME')

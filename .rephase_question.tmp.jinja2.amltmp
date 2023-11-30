@@ -1,7 +1,0 @@
-system:
-Rephrase user's input if necessary so that intent and objective of user's ask becomes clearer.
-
-user:
-{{question}}
-
-# reformatted question phrase
