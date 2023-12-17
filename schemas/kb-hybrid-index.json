@@ -358,9 +358,9 @@
           "name": "text-embedding-ada2",
           "kind": "azureOpenAI",
           "azureOpenAIParameters": {
-            "resourceUri": "https://oai7-sweden.openai.azure.com",
-            "deploymentId": "text-embedding-ada-002",
-            "apiKey": "417167a73005478bb48c65ddbc89c487",
+            "resourceUri": "YOUR_AOAI_ENDPOINT",
+            "deploymentId": "YOUR_EMEBDDING_MODEL_NAME",
+            "apiKey": "YOUR_AOAI_API_KEY",
             "authIdentity": null
           },
           "customWebApiParameters": null

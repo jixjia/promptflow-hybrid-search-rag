@@ -5,7 +5,7 @@ environment:
 inputs:
   question:
     type: string
-    default: How do I charge my Model 3? Where's charging port ?
+    default: How do I turn on Autopilot ? is it safe to use ?
     is_chat_input: false
 outputs:
   answer:

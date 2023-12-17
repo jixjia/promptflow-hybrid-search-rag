@@ -1,0 +1,1 @@
+{"deployment_name":"gpt-35-turbo-instruct","suffix":"","max_tokens":200,"temperature":0,"top_p":1,"logprobs":0,"echo":false,"presence_penalty":0,"frequency_penalty":0,"best_of":1,"inputs.question":"How do I turn on Autopilot ? is it safe to use ?"}
